@@ -92,7 +92,7 @@ Controls.ApplicationWindow {
             id: calculate
             text: qsTr("Calculate")
             checkable: false
-            onClicked: _demo.output(sourceinput.values(), targetinput.values());
+            onClicked: _demo.output(point1.values(), point2.values(), point3.values());
         }
 
         ColumnLayout {

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>mainwindow.qml</file>
+        <file>PointInput.qml</file>
+    </qresource>
+</RCC>

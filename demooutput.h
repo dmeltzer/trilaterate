@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QJSValue>
+#include <QVector3D>
 #include "polarpoint.h"
 #include "etc-osc/OSCMessage.h"
 #include "etc-osc/OSCNetworkManager.h"
@@ -33,8 +34,8 @@ class DemoOutput : public QObject
 
 
 public:
-    explicit DemoOutput(QObject *parent = 0);
-    Q_INVOKABLE void output(const QStringList &source, const QStringList &target);
+    explicit DemoOutput(QObject *parent = nullptr);
+    Q_INVOKABLE void output(const QStringList &point1, const QStringList &point2, const QStringList &point3);
 
     QString ipAddress() { return m_ipAddress; }
     Q_INVOKABLE void setIpAddress(QString ipAddress);
@@ -45,6 +46,8 @@ public:
             m_oscEnabled = oscEnabled;
         emit oscEnabledChanged(); }
 
+    void stackTranslaterate();
+
 signals:
     void ipChanged();
     void oscEnabledChanged();
@@ -53,9 +56,12 @@ signals:
 public slots:
     void onMessageRecieved(OSCMessage message);
 private:
+    QVector3D vectorize(const QStringList &qmlPoint);
     QString m_ipAddress;
     bool m_oscEnabled;
     OSCNetworkManager *m_manager;
+
+    float square(float value) { return value*value; }
 
     PolarPoint m_currentLocation;
 };
