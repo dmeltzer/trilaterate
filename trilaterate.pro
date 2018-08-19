@@ -1,6 +1,6 @@
-QT += core widgets qml quick 3dcore
+QT += core widgets qml quick 3dcore testlib
 
-CONFIG += c++11 qml_debug
+CONFIG += c++11 qml_debug testcase
 
 TARGET = trilaterate
 CONFIG += console
@@ -10,23 +10,24 @@ TEMPLATE = app
 INCLUDEPATH += "$$PWD/../lib/"
 
 SOURCES += main.cpp \
+    trivector.cpp \
     demooutput.cpp \
-    polarpoint.cpp \
     etc-osc/OSCMessage.cpp \
     etc-osc/OSCNetworkManager.cpp \
     etc-osc/OSCParser.cpp \
-    trivector.cpp
+    trilaterate.cpp \
+    tests/testtrilaterate.cpp
 
 HEADERS += \
         demooutput.h \
-        polarpoint.h \
+        trivector.h \
         inputinterface.h \
 # From ETC S2L.
         etc-osc/OSCMessage.h \
         etc-osc/OSCNetworkManager.h \
         etc-osc/OSCParser.h \
-    trivector.h
-        etc-osc/utils.h
+        etc-osc/utils.h \
+    trilaterate.h
 
 DISTFILES += \
     mainwindow.qml \

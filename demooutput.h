@@ -23,7 +23,6 @@
 #include <QDebug>
 #include <QJSValue>
 #include <QVector3D>
-#include "polarpoint.h"
 #include "etc-osc/OSCMessage.h"
 #include "etc-osc/OSCNetworkManager.h"
 class DemoOutput : public QObject
@@ -60,10 +59,7 @@ private:
     QString m_ipAddress;
     bool m_oscEnabled;
     OSCNetworkManager *m_manager;
-
-    float square(float value) { return value*value; }
-
-    PolarPoint m_currentLocation;
 };
+
 
 #endif // DEMOOUTPUT_H

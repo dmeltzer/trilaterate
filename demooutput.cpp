@@ -17,21 +17,18 @@
 ***************************************************************************/
 
 #include "demooutput.h"
-
+#include "trivector.h"
+#include "trilaterate.h"
 #include <QHostAddress>
-#include <QMatrix4x4>
-#include <Qt3DCore/QTransform>
-#include <QQuaternion>
 DemoOutput::DemoOutput(QObject *parent)
     : QObject(parent)
     , m_ipAddress(QString("127.0.0.1"))
     , m_oscEnabled(false)
-    , m_manager(0)
-    , m_currentLocation(0,0,0)
+    , m_manager(nullptr)
 {
 //    m_manager = new OSCNetworkManager;
 //    m_manager->setIpAddress(QHostAddress(m_ipAddress));
-//    m_manager->setUseTcp(true);
+//    m_manager->setUseTcp(true)`;
 //    m_manager->setEnabled(true);
 
 //    connect(m_manager, SIGNAL(messageReceived(OSCMessage)), this, SLOT(onMessageRecieved(OSCMessage)));
@@ -45,60 +42,14 @@ DemoOutput::output(const QStringList &point1, const QStringList &point2, const Q
 //        return;
 //    }
 
-    // Okay, so lets take this step by step.
-    // Three points:
-    // Point of The light source itself.  This will be shifted to 0,0,0
-    // Calibration point.  This is where the light currently is.
-    // Target we are pointing at.
 
 //    QVector3D firstPoint(point1[0].toFloat(), point1[1].toFloat(), point1[2].toFloat());
-    QVector3D firstPoint = vectorize(point1);
-    float firstRadius = point1[3].toFloat();
-    QVector3D secondPoint = vectorize(point2);
-    float secondRadius = point2[3].toFloat();
-    QVector3D thirdPoint = vectorize(point3);
-    float thirdRadius = point3[3].toFloat();
-
-    QVector3D translationVector = -firstPoint;
-
-
-    // Attempt based on trilaterate.js
-//	ex = vector_divide(vector_subtract(p2, p1), norm(vector_subtract(p2, p1)));
-    QVector3D ex = (secondPoint - firstPoint) / norm((secondPoint - firstPoint));
-//	i = dot(ex, vector_subtract(p3, p1));
-    float i = QVector3D::dotProduct(ex, (thirdPoint - firstPoint));
-//    a = vector_subtract(vector_subtract(p3, p1), vector_multiply(ex, i));
-    QVector3D a = (thirdPoint - firstPoint) - (ex * i);
-//    ey = vector_divide(a, norm(a));
-    QVector3D ey = a / norm(a);
-//	ez =  vector_cross(ex, ey);
-    QVector3D ez = QVector3D::crossProduct(ex, ey);
-//  d = norm(vector_subtract(p2, p1));
-    float d = norm(secondPoint - firstPoint);
-//    j = dot(ey, vector_subtract(p3, p1));
-    float j = QVector3D::dotProduct(ey, (thirdPoint - firstPoint));
-//	x = (sqr(p1.r) - sqr(p2.r) + sqr(d)) / (2 * d);
-    float x = (square(firstRadius) - square(secondRadius) + square(d)) / (2*d);
-//	y = (sqr(p1.r) - sqr(p3.r) + sqr(i) + sqr(j)) / (2 * j) - (i / j) * x;
-    float y = (square(firstRadius) - square(thirdRadius) + square(i) + square(j)) / (2*j)-(i/j) * x;
-    float b = square(firstRadius) - square(x) - square(y);
-
-    float z = qSqrt(b);
-    if(isnan(z))
-    {
-        qDebug() << "No Solution Found!!";
-        return;
-    }
-//	a = vector_add(p1, vector_add(vector_multiply(ex, x), vector_multiply(ey, y)))
-    a = (firstPoint + (ex*x + (ey*y)));
-    QVector3D firstSolutionPoint = a+(ez*z);
-    QVector3D secondSolutionPoint = (a-(ez*z));
-    if(qFuzzyCompare(z,0))
-    {
-        qDebug() << "Solution is: " << firstSolutionPoint;
-        return;
-    }
-    qDebug() << "Solution is either: " << firstSolutionPoint << " Or: " << secondSolutionPoint;
+    TriVector firstPoint(point1);
+    TriVector secondPoint(point2);
+    TriVector thirdPoint(point3);
+    TriLaterate t(firstPoint, secondPoint, thirdPoint);
+    QVector3D solution = t.trilaterate().first();
+    qDebug() << "Solution: " << solution;
 //    qDebug() << "Original Coordinates: " << firstPoint << secondPoint << thirdPoint;
     // Based on https://stackoverflow.com/questions/16176656/trilateration-and-locating-the-point-x-y-z
     // First, translate so that firstPoint is at the origin.

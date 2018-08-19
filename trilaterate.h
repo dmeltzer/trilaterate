@@ -15,32 +15,23 @@
 ** along with this program; if not, write to the Free Software Foundation,**
 ** Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA      **
 ***************************************************************************/
-#ifndef TRIVECTOR_H
-#define TRIVECTOR_H
-
+#ifndef TRILATERATE_H
+#define TRILATERATE_H
+#include "trivector.h"
 #include <QVector3D>
-#include <QStringList>
-#include <QtMath>
-
-class TriVector
+class TriLaterate
 {
 public:
-    TriVector(QVector3D v, qreal radius);
-    TriVector(qreal x, qreal y, qreal z, qreal radius);
-    TriVector(QStringList values);
+    TriLaterate(const TriVector &v1, const TriVector &v2, const TriVector &v3);
 
-    void setDistance(qreal radius) { m_distance = radius; }
-    qreal distance() const { return m_distance; }
-
-    void setVector (const QVector3D &v)  { m_vector = v; }
-    QVector3D vector() const { return m_vector; }
-//    static float norm(const TriVector &v);
-
+    QList<QVector3D> trilaterate();
 private:
-    QVector3D m_vector;
-    qreal m_distance;
+   TriVector m_v1;
+   TriVector m_v2;
+   TriVector m_v3;
 };
-#endif // TRIVECTOR_H
 
+inline float square(float value) { return value*value; }
+inline float norm(const QVector3D &v) {return qSqrt( square(v.x()) + square(v.y()) + square(v.z()));}
 
-
+#endif // TRILATERATE_H

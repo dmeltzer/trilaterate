@@ -16,22 +16,21 @@
 ** Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA      **
 ***************************************************************************/
 #include "trivector.h"
-
-TriVector::TriVector(qreal xpos, qreal ypos, qreal zpos, qreal radius) :
-    QVector3D(xpos, ypos, zpos)
+TriVector::TriVector(QVector3D v, qreal radius)
 {
-    m_radius = radius;
+    m_vector = v;
+    m_distance = radius;
 }
 
-TriVector::TriVector(QStringList values) :
-    QVector3D ()
+TriVector::TriVector(qreal x, qreal y, qreal z, qreal radius)
 {
-    setX(values[0].toFloat());
-    setY(values[1].toFloat());
-    setZ(values[2].toFloat());
-    m_radius = values[3].toFloat();
+    m_vector = QVector3D(x,y,z);
+    m_distance = radius;
 }
-float norm()
+
+
+TriVector::TriVector(QStringList values)
 {
-    return qSqrt( square(x()) + square(y()) + square(z()));
+    m_vector = QVector3D(values[0].toFloat(), values[1].toFloat(), values[2].toFloat());
+    m_distance = values[3].toDouble();
 }
