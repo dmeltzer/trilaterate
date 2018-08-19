@@ -1,14 +1,14 @@
 import QtQuick 2.0
+import QtQuick.Window 2.2
+import QtQuick.Controls 1.4 as Controls
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
-import QtQuick.Controls 1.4 as Controls
-import QtQuick.Window 2.2
 import QtQuick.Templates 2.0
 
 Controls.ApplicationWindow {
     id: window
-    width: 600
-    height: 400
+    width: 800
+    height: 600
     title: "Test App"
     visible: true
     minimumWidth:  250
@@ -44,39 +44,36 @@ Controls.ApplicationWindow {
     }
 
     ColumnLayout {
-        width: 600
-        height: 400
         spacing: 1
         Layout.preferredHeight: parent.height
         Layout.preferredWidth: parent.width
 
         RowLayout {
+            spacing: -1
             Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.preferredHeight: 100
-            Layout.preferredWidth: 600
+            Layout.fillWidth: false
             PointInput {
                 id: point1
                 objectName: "firstPoint"
                 title: "First Point"
-                width: 200
-                height: 100
+                Layout.fillHeight: true
+                Layout.fillWidth: true
             }
 
             PointInput {
                 id: point2
                 objectName: "secondPoint"
                 title: "Second Point"
-                width: 200
-                height: 100
+                Layout.fillHeight: true
+                Layout.fillWidth: true
             }
 
             PointInput {
                 id: point3
                 objectName: "thirdPoint"
                 title: "Third Point"
-                width: 200
-                height: 100
+                Layout.fillWidth: true
+                Layout.fillHeight: true
             }
 
 //            PointInput {

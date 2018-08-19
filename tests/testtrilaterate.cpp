@@ -33,8 +33,7 @@ void TestTrilaterate::testTrilaterateTwoResults()
     TriVector p2(100,0,0,100);
     TriVector p3(0,100,0,100);
 
-    TriLaterate t(p1,p2,p3);
-    QList<QVector3D> results = t.trilaterate();
+    QList<QVector3D> results = TriLaterate::trilaterate(p1,p2,p3);
     QVector3D firstExpect(50,50,70.71067811865476);
     QVector3D secondExpect(50,50,-70.71067811865476);
     QList<QVector3D> expectations;
@@ -45,8 +44,7 @@ void TestTrilaterate::testTrilaterateTwoResults()
     p2 = TriVector(100,0,0,100);
     p3 = TriVector(0,100,50,100);
 
-    TriLaterate t2(p1,p2,p3);
-    QList<QVector3D> results2 = t2.trilaterate();
+    QList<QVector3D> results2 = TriLaterate::trilaterate(p1,p2,p3);;
     firstExpect = QVector3D(50,20.419601084501917,84.16079783099616);
     secondExpect = QVector3D(50,79.58039891549808,-34.16079783099617);
     expectations.clear();
@@ -60,8 +58,7 @@ void TestTrilaterate::testTrilaterateNoResults()
     TriVector p2(100,0,0,10);
     TriVector p3(0,100,0,10);
 
-    TriLaterate t(p1,p2,p3);
-    QList<QVector3D> results = t.trilaterate();
+    QList<QVector3D> results = TriLaterate::trilaterate(p1,p2,p3);;
     QVERIFY(results.isEmpty());
 }
 
@@ -71,8 +68,7 @@ void TestTrilaterate::testWeirdFloatingPoint()
     TriVector p2(0,50,50,0);
     TriVector p3(0,80,80,0);
 
-    TriLaterate t(p1,p2,p3);
-    QList<QVector3D> results = t.trilaterate();
+    QList<QVector3D> results = TriLaterate::trilaterate(p1,p2,p3);;
     QVector3D firstExpect(-1.5631940186722204e-13,-1.4210854715202004e-13,0);
     QList<QVector3D> expectations;
     expectations <<  firstExpect;
@@ -81,6 +77,6 @@ void TestTrilaterate::testWeirdFloatingPoint()
 }
 
 
-    QTEST_MAIN(TestTrilaterate)
+//    QTEST_MAIN(TestTrilaterate)
 
     #include "testtrilaterate.moc"

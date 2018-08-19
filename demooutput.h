@@ -25,6 +25,7 @@
 #include <QVector3D>
 #include "etc-osc/OSCMessage.h"
 #include "etc-osc/OSCNetworkManager.h"
+#include "trivector.h"
 class DemoOutput : public QObject
 {
     Q_OBJECT
@@ -45,8 +46,6 @@ public:
             m_oscEnabled = oscEnabled;
         emit oscEnabledChanged(); }
 
-    void stackTranslaterate();
-
 signals:
     void ipChanged();
     void oscEnabledChanged();
@@ -59,6 +58,11 @@ private:
     QString m_ipAddress;
     bool m_oscEnabled;
     OSCNetworkManager *m_manager;
+
+    TriVector m_firstPoint;
+    TriVector m_secondPoint;
+    TriVector m_thirdPoint;
+    QVector<QVariant> m_oldMessage;
 };
 
 

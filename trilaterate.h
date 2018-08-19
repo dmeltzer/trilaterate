@@ -22,13 +22,7 @@
 class TriLaterate
 {
 public:
-    TriLaterate(const TriVector &v1, const TriVector &v2, const TriVector &v3);
-
-    QList<QVector3D> trilaterate();
-private:
-   TriVector m_v1;
-   TriVector m_v2;
-   TriVector m_v3;
+    static QList<QVector3D> trilaterate(const TriVector &v1, const TriVector &v2, const TriVector &v3);
 };
 
 inline float square(float value) { return value*value; }

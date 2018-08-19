@@ -25,20 +25,31 @@
 class TriVector
 {
 public:
-    TriVector(QVector3D v, qreal radius);
-    TriVector(qreal x, qreal y, qreal z, qreal radius);
+    TriVector(QVector3D v, qreal cableOffset);
+    TriVector(qreal x, qreal y, qreal z, qreal cableOffset);
     TriVector(QStringList values);
+    TriVector() {;}
 
     void setDistance(qreal radius) { m_distance = radius; }
     qreal distance() const { return m_distance; }
 
     void setVector (const QVector3D &v)  { m_vector = v; }
     QVector3D vector() const { return m_vector; }
-//    static float norm(const TriVector &v);
+
+    void setCableOffset(qreal offset) { m_cableOffset = offset; }
+    qreal cableOffset() const { return m_cableOffset; }
+
+    void setWinchDistance(qreal length);
+
+    int axis() const {return m_axis; }
+    void setAxis(int value) {m_axis = value; }
 
 private:
     QVector3D m_vector;
+    qreal m_cableOffset;
     qreal m_distance;
+    qreal m_cableLength;
+    int m_axis;
 };
 #endif // TRIVECTOR_H
 

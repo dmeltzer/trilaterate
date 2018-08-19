@@ -16,21 +16,31 @@
 ** Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA      **
 ***************************************************************************/
 #include "trivector.h"
-TriVector::TriVector(QVector3D v, qreal radius)
+TriVector::TriVector(QVector3D v, qreal cableToZero)
 {
     m_vector = v;
-    m_distance = radius;
+    m_cableOffset = v.z() - cableToZero;
 }
 
-TriVector::TriVector(qreal x, qreal y, qreal z, qreal radius)
+TriVector::TriVector(qreal x, qreal y, qreal z, qreal cableToZero)
 {
     m_vector = QVector3D(x,y,z);
-    m_distance = radius;
+    m_cableOffset = z - cableToZero;
 }
 
 
 TriVector::TriVector(QStringList values)
 {
     m_vector = QVector3D(values[0].toFloat(), values[1].toFloat(), values[2].toFloat());
-    m_distance = values[3].toDouble();
+    m_cableOffset = m_vector.z() -  values[3].toDouble();
+}
+
+void TriVector::setWinchDistance(qreal cableLength)
+{
+    // This is going to come in as a arbitray number.
+    // For our purposes, when this number is 0 the distance is z() - cableOffset.
+    // If the number is negative, it's further away.
+    // If the number is positive, it's closer to the divert point.
+    qreal startingLength = m_vector.z() - m_cableOffset;
+    m_distance = startingLength + cableLength;
 }

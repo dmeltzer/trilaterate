@@ -19,18 +19,12 @@
 #include "trivector.h"
 
 #include <qdebug.h>
-TriLaterate::TriLaterate(const TriVector &v1, const TriVector &v2, const TriVector &v3) :
-    m_v1(v1),
-    m_v2(v2),
-    m_v3(v3)
-{
-}
 
-QList<QVector3D> TriLaterate::trilaterate()
+QList<QVector3D> TriLaterate::trilaterate(const TriVector &v1, const TriVector &v2, const TriVector &v3)
 {
-    QVector3D firstVector = m_v1.vector();
-    QVector3D secondVector = m_v2.vector();
-    QVector3D thirdVector = m_v3.vector();
+    QVector3D firstVector = v1.vector();
+    QVector3D secondVector = v2.vector();
+    QVector3D thirdVector = v3.vector();
 
     // Attempt based on trilaterate.js
     QVector3D ex = (secondVector - firstVector) / norm((secondVector - firstVector));
@@ -40,9 +34,9 @@ QList<QVector3D> TriLaterate::trilaterate()
     QVector3D ez = QVector3D::crossProduct(ex, ey);
     float d = norm(secondVector - firstVector);
     float j = QVector3D::dotProduct(ey, (thirdVector - firstVector));
-    float x = (square(m_v1.distance()) - square(m_v2.distance()) + square(d)) / (2*d);
-    float y = (square(m_v1.distance()) - square(m_v3.distance()) + square(i) + square(j)) / (2*j)-(i/j) * x;
-    float b = square(m_v1.distance()) - square(x) - square(y);
+    float x = (square(v1.distance()) - square(v2.distance()) + square(d)) / (2*d);
+    float y = (square(v1.distance()) - square(v3.distance()) + square(i) + square(j)) / (2*j)-(i/j) * x;
+    float b = square(v1.distance()) - square(x) - square(y);
 
     if(qAbs(b) < 0.0000000001) {
         b = 0;
