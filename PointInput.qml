@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4 as Controls
 import QtQuick.Layouts 1.1
+import Qt.labs.settings 1.0
 
 Rectangle {
     id: rectangle
@@ -11,6 +12,15 @@ Rectangle {
 
     function values() {
         return [xField.displayText, yField.displayText, zField.displayText, lineLength.displayText, axis.displayText];
+    }
+
+    Settings {
+        category: axis.text
+        property alias axis: axis.text
+        property alias x: xField.text
+        property alias y: yField.text
+        property alias z: zField.text
+        property alias cable0: cable0.text
     }
 
     Text {

@@ -33,7 +33,9 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
-
+    QCoreApplication::setOrganizationName("EMPAC");
+    QCoreApplication::setOrganizationDomain("empac.rpi.edu");
+    QCoreApplication::setApplicationName("eChamThingy");
     DemoOutput *d = new DemoOutput;
     engine->rootContext()->setContextProperty("_demo", d);
     // actually load QML file:
